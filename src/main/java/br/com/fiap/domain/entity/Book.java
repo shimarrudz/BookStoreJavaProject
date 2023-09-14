@@ -28,7 +28,7 @@ public class Book {
     @Column(name = "DT_LAUNCH")
     private LocalDateTime launch;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "TB_BOOK_AUTHOR",
             joinColumns = {
