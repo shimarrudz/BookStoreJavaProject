@@ -28,7 +28,16 @@ public class Book {
     @Column(name = "DT_LAUNCH")
     private LocalDateTime launch;
 
-
+    @ManyToMany
+    @JoinTable(
+            name = "TB_BOOK_AUTHOR",
+            joinColumns = {
+                    @JoinColumn(name = "BOOK", referencedColumnName = "ID_BOOK", foreignKey = @ForeignKey(name = "FK_BOOK_AUTHOR"))
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "AUTHOR", referencedColumnName = "ID_AUTHOR", foreignKey = @ForeignKey(name = "FK_AUTHOR_BOOK"))
+            }
+    )
     private Set<Author> writers;
 
     public Book() {
