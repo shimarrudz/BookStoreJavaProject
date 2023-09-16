@@ -1,6 +1,9 @@
 package br.com.fiap;
 
-import br.com.fiap.domain.entity.*;
+import br.com.fiap.domain.entity.Author;
+import br.com.fiap.domain.entity.Book;
+import br.com.fiap.domain.entity.PessoaFisica;
+import br.com.fiap.domain.entity.PessoaJuridica;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -12,7 +15,7 @@ import java.util.UUID;
 public class Main {
     public static void main(String[] args) {
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory( "oracle" );
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory( "maria-db" );
         EntityManager manager = factory.createEntityManager();
 
         var holding = new PessoaJuridica();
@@ -22,7 +25,6 @@ public class Main {
         holding.setCnpj( "12313213/0001-21" ).setId( null )
                 .setNome( "Holding Benezinho SA" )
                 .setNascimento( LocalDate.now().minusYears( 5 ) );
-
 
         bene.setCpf( "213124164" )
                 .setNome( "Benefrancis do Nascimento" )
@@ -34,37 +36,34 @@ public class Main {
                 .setNome( "Vinicius Cruzeiro Barbosa" )
                 .setNascimento( LocalDate.now().minusYears( 17 ) );
 
+        var authorBene = new Author();
+        authorBene.setPessoa( bene );
 
-        System.out.println(holding);
-        System.out.println(bene);
-        System.out.println(vinicius);
+        var authorVinicius = new Author();
+        authorVinicius.setPessoa( vinicius );
+
+        var livro = new Book();
+        livro.setISBN( UUID.randomUUID().toString() )
+                .setName( "Memórias de Benezinho" )
+                .setLaunch( LocalDateTime.now() )
+                .addAuthor( authorBene )
+                .addAuthor( authorVinicius );
+
+
+        manager.getTransaction().begin();
+        manager.persist( holding );
+        manager.persist( livro );
+        manager.getTransaction().commit();
+
+
+        System.out.println( holding );
+
+        System.out.println( livro );
 
         manager.close();
         factory.close();
 
-
     }
 
-    private static Book newBook(EntityManager manager) {
-        var bene = new Author( null, "Benefrancis" );
-        var raquel = new Author( null, "Raquel" );
-        var guilherme = new Author( null, "Guilherme" );
 
-        var livro = new Book();
-
-        livro.setId( null )
-                .setName( "Java Mapeamento Objeto Relacional" )
-                .setLaunch( LocalDateTime.now() )
-                .setISBN( UUID.randomUUID().toString() )
-                .addAuthor( bene )
-                .addAuthor( raquel )
-                .addAuthor( guilherme );
-
-        manager.getTransaction().begin();
-
-        manager.persist( livro );
-
-        manager.getTransaction().commit();
-        return livro;
-    }
 }
