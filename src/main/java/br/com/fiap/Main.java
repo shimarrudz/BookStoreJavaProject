@@ -8,30 +8,35 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.*;
 
 public class Main {
+
     public static void main(String[] args) {
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory( "maria-db" );
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory( "oracle", getProperties() );
         EntityManager manager = factory.createEntityManager();
 
         var holding = new PessoaJuridica();
         var bene = new PessoaFisica();
         var vinicius = new PessoaFisica();
 
-        holding.setCnpj( "12313213/0001-21" ).setId( null )
+        holding.setCnpj( UUID.randomUUID().toString() )
+                .setId( null )
                 .setNome( "Holding Benezinho SA" )
                 .setNascimento( LocalDate.now().minusYears( 5 ) );
 
-        bene.setCpf( "213124164" )
+        bene.setCpf(UUID.randomUUID().toString() )
+                .setId( null )
                 .setNome( "Benefrancis do Nascimento" )
-                .setNascimento( LocalDate.of( 1977, 3, 8 ) )
-                .setId( null );
+                .setNascimento( LocalDate.of( 1977, 3, 8 ) );
 
-        vinicius.setCpf( "131231321" )
+        vinicius.setCpf( UUID.randomUUID().toString() )
                 .setId( null )
                 .setNome( "Vinicius Cruzeiro Barbosa" )
                 .setNascimento( LocalDate.now().minusYears( 17 ) );
@@ -49,20 +54,33 @@ public class Main {
                 .addAuthor( authorBene )
                 .addAuthor( authorVinicius );
 
-
         manager.getTransaction().begin();
         manager.persist( holding );
         manager.persist( livro );
         manager.getTransaction().commit();
 
-
         System.out.println( holding );
-
         System.out.println( livro );
 
         manager.close();
         factory.close();
 
+    }
+
+    private static Map<String, Object> getProperties() {
+        Map<String, String> env = System.getenv();
+        Map<String, Object> properties = new HashMap<>();
+
+        for (String chave : env.keySet()) {
+            if (chave.contains( "USER_FIAP" )) {
+                properties.put( "jakarta.persistence.jdbc.user",  env.get( chave ) );
+            }
+            if (chave.contains( "PASSWORD_FIAP" )) {
+                properties.put( "jakarta.persistence.jdbc.password",  env.get( chave ) );
+            }
+            // Outras configurações de propriedade ....
+        }
+        return properties;
     }
 
 
