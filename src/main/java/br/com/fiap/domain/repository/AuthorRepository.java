@@ -1,24 +1,20 @@
 package br.com.fiap.domain.repository;
 
 import br.com.fiap.domain.entity.Author;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
 import java.util.List;
 import java.util.Objects;
 
 
-public class AuthorRepository implements Repository<Author, Long> {
+public class AuthorRepository extends AbstractRepository implements Repository<Author, Long> {
 
     private static volatile AuthorRepository instance;
 
-
-    @PersistenceContext
-    private EntityManager manager;
-
     private AuthorRepository(EntityManager manager) {
-        this.manager = manager;
+        super(manager);
     }
 
 

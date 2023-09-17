@@ -15,7 +15,7 @@ import java.util.List;
 @Path("/book")
 public class BookResource implements Resource<BookDTO, Long> {
 
-    private BookService service = BookService.of( BookRepository.of( database() ) );
+    private BookService service = BookService.of( "oracle" );
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

@@ -4,18 +4,16 @@
 
 
     <persistence-unit name="oracle" transaction-type="RESOURCE_LOCAL">
-        <shared-cache-mode>ALL</shared-cache-mode>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL"/>
             <property name="jakarta.persistence.jdbc.user" value=""/>
             <property name="jakarta.persistence.jdbc.password" value=""/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>
-            <property name="hibernate.discriminator.ignore_explicit_for_joined" value="true"/>
-
-            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <!--            https://in.relation.to/2017/02/01/non-temporary-table-bulk-id-strategies/-->
         </properties>
     </persistence-unit>
 

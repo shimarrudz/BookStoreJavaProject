@@ -2,6 +2,8 @@ package br.com.fiap.domain.service;
 
 import br.com.fiap.domain.entity.Author;
 import br.com.fiap.domain.repository.AuthorRepository;
+import br.com.fiap.infra.EntityManagerFactoryProvider;
+import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,19 +13,23 @@ public class AuthorService implements Service<Author, Long> {
 
     private static volatile AuthorService instance;
 
+
     private AuthorRepository repo;
 
     private AuthorService(AuthorRepository repo) {
         this.repo = repo;
     }
 
-    public static AuthorService of(AuthorRepository repo) {
+
+    public static AuthorService of(String persistenceUnit) {
         AuthorService result = instance;
         if (Objects.nonNull( result )) return result;
 
         synchronized (AuthorService.class) {
             if (Objects.isNull( instance )) {
-                instance = new AuthorService( repo );
+                EntityManagerFactory factory = new EntityManagerFactoryProvider( persistenceUnit ).provide();
+                AuthorRepository authorRepository = AuthorRepository.of( factory.createEntityManager() );
+                instance = new AuthorService( authorRepository );
             }
             return instance;
         }

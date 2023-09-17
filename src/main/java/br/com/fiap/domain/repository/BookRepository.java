@@ -1,6 +1,7 @@
 package br.com.fiap.domain.repository;
 
 import br.com.fiap.domain.entity.Book;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -9,18 +10,13 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class BookRepository implements Repository<Book, Long> {
+public class BookRepository extends AbstractRepository implements Repository<Book, Long> {
 
     private static volatile BookRepository instance;
 
-
-    @PersistenceContext
-    private EntityManager manager;
-
     private BookRepository(EntityManager manager) {
-        this.manager = manager;
+        super(manager);
     }
-
 
     public static BookRepository of(EntityManager manager) {
         BookRepository result = instance;

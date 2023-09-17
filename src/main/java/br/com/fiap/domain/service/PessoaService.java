@@ -2,6 +2,10 @@ package br.com.fiap.domain.service;
 
 import br.com.fiap.domain.entity.Pessoa;
 import br.com.fiap.domain.repository.PessoaRepository;
+import br.com.fiap.infra.EntityManagerFactoryProvider;
+import br.com.fiap.infra.EntityManagerProvider;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,18 +16,21 @@ public class PessoaService implements Service<Pessoa, Long> {
 
     private PessoaRepository repo;
 
+
     private PessoaService(PessoaRepository repo) {
         this.repo = repo;
     }
 
 
-    public static PessoaService of(PessoaRepository repo) {
+    public static PessoaService of(String persistenceUnit) {
         PessoaService result = instance;
         if (Objects.nonNull( result )) return result;
 
         synchronized (PessoaService.class) {
             if (Objects.isNull( instance )) {
-                instance = new PessoaService( repo );
+                EntityManagerFactory factory = new EntityManagerFactoryProvider( persistenceUnit).provide();
+                PessoaRepository pessoaRepository = PessoaRepository.of( factory.createEntityManager() );
+                instance = new PessoaService( pessoaRepository );
             }
             return instance;
         }
