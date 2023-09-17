@@ -38,7 +38,7 @@ public class Book {
                     @JoinColumn(name = "AUTHOR", referencedColumnName = "ID_AUTHOR", foreignKey = @ForeignKey(name = "FK_AUTHOR_BOOK"))
             }
     )
-    private Set<Author> writers;
+    private Set<Author> writers = new LinkedHashSet<>();
 
     public Book() {
         writers = new LinkedHashSet<>();
@@ -52,17 +52,24 @@ public class Book {
         this.writers = writers != null ? writers : new LinkedHashSet<>();
     }
 
+    public Book(Long id, String name, String ISBN, LocalDateTime launch) {
+        this.id = id;
+        this.name = name;
+        this.ISBN = ISBN;
+        this.launch = launch;
+    }
+
     public Set<Author> getWriters() {
-        return Collections.unmodifiableSet(writers);
+        return Collections.unmodifiableSet( writers );
     }
 
     public Book addAuthor(Author a) {
-        writers.add(a);
+        writers.add( a );
         return this;
     }
 
     public Book removeAuthor(Author a) {
-        writers.remove(a);
+        writers.remove( a );
         return this;
     }
 

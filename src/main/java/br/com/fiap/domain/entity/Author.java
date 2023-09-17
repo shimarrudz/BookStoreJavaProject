@@ -3,6 +3,7 @@ package br.com.fiap.domain.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -25,10 +26,14 @@ public class Author {
     )
     private PessoaFisica pessoa;
 
-    @ManyToMany(mappedBy = "writers")
+    @ManyToMany(mappedBy = "writers", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @OrderBy("name ASC")
-    Set<Book> obras;
+    Set<Book> obras = new LinkedHashSet<>();
 
+
+    public Set<Book> getObras() {
+        return Collections.unmodifiableSet( obras );
+    }
 
     public Author addObra(Book b) {
         this.obras.add( b );
@@ -48,6 +53,11 @@ public class Author {
         this.id = id;
         this.pessoa = pessoaFisica;
         this.obras = Objects.nonNull( obras ) ? obras : new LinkedHashSet<>();
+    }
+
+    public Author(Long id, PessoaFisica pessoa) {
+        this.id = id;
+        this.pessoa = pessoa;
     }
 
     public Long getId() {
