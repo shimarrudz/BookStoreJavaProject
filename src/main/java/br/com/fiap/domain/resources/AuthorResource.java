@@ -18,6 +18,8 @@ public class AuthorResource implements Resource<AuthorDTO, Long> {
 
     private AuthorService service    = AuthorService.of( "oracle" );
 
+
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Override

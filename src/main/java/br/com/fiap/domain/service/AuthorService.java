@@ -27,7 +27,7 @@ public class AuthorService implements Service<Author, Long> {
 
         synchronized (AuthorService.class) {
             if (Objects.isNull( instance )) {
-                EntityManagerFactory factory = new EntityManagerFactoryProvider( persistenceUnit ).provide();
+                EntityManagerFactory factory = EntityManagerFactoryProvider.of( persistenceUnit ).provide();
                 AuthorRepository authorRepository = AuthorRepository.of( factory.createEntityManager() );
                 instance = new AuthorService( authorRepository );
             }
