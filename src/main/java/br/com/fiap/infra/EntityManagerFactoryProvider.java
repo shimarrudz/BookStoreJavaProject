@@ -1,5 +1,6 @@
 package br.com.fiap.infra;
 
+import br.com.fiap.Main;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.glassfish.hk2.api.Factory;
@@ -42,6 +43,7 @@ public class EntityManagerFactoryProvider implements Factory<EntityManagerFactor
 
     /**
      * Protegendo informações críticas como usuário e senha do banco de dados
+     *
      * @return
      */
     static Map<String, Object> getProperties() {
@@ -51,12 +53,18 @@ public class EntityManagerFactoryProvider implements Factory<EntityManagerFactor
         Map<String, Object> properties = new HashMap<>();
 
         for (String chave : env.keySet()) {
-            if (chave.contains( "USER_FIAP" )) {
-                properties.put( "jakarta.persistence.jdbc.user", env.get( chave ) );
+
+            if (Main.PERSISTENCE_UNIT.equals( "oracle" )) {
+
+                if (chave.contains( "USER_FIAP" )) {
+                    properties.put( "jakarta.persistence.jdbc.user", env.get( chave ) );
+                }
+                if (chave.contains( "PASSWORD_FIAP" )) {
+                    properties.put( "jakarta.persistence.jdbc.password", env.get( chave ) );
+                }
+
             }
-            if (chave.contains( "PASSWORD_FIAP" )) {
-                properties.put( "jakarta.persistence.jdbc.password", env.get( chave ) );
-            }
+
             // Outras configurações de propriedade ....
         }
         return properties;
