@@ -11,9 +11,7 @@ import java.util.Objects;
 
 public class BookService implements Service<Book, Long> {
 
-
     private static volatile BookService instance;
-
 
     private BookRepository repo;
 

@@ -1,8 +1,8 @@
 package br.com.fiap.domain.resources;
 
+import br.com.fiap.Main;
 import br.com.fiap.domain.dto.BookDTO;
 import br.com.fiap.domain.entity.Book;
-import br.com.fiap.domain.repository.BookRepository;
 import br.com.fiap.domain.service.BookService;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -15,7 +15,7 @@ import java.util.List;
 @Path("/book")
 public class BookResource implements Resource<BookDTO, Long> {
 
-    private BookService service = BookService.of( "oracle" );
+    private BookService service = BookService.of( Main.PERSISTENCE_UNIT );
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

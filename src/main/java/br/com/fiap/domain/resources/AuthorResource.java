@@ -1,5 +1,6 @@
 package br.com.fiap.domain.resources;
 
+import br.com.fiap.Main;
 import br.com.fiap.domain.dto.AuthorDTO;
 import br.com.fiap.domain.entity.Author;
 import br.com.fiap.domain.repository.AuthorRepository;
@@ -15,10 +16,7 @@ import java.util.List;
 @Path("/author")
 public class AuthorResource implements Resource<AuthorDTO, Long> {
 
-
-    private AuthorService service    = AuthorService.of( "oracle" );
-
-
+    private AuthorService service    = AuthorService.of( Main.PERSISTENCE_UNIT );
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

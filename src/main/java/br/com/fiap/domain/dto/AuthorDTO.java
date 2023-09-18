@@ -12,4 +12,5 @@ public record AuthorDTO(Long id, @Valid PessoaFisicaDTO pessoa) {
     public static Author of(AuthorDTO p) {
         return new Author( p.id, PessoaFisicaDTO.of( p.pessoa ) );
     }
+
 }

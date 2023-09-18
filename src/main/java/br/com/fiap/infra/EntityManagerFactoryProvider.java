@@ -1,8 +1,5 @@
 package br.com.fiap.infra;
 
-import br.com.fiap.domain.repository.AuthorRepository;
-import br.com.fiap.domain.service.AuthorService;
-import jakarta.inject.Named;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.glassfish.hk2.api.Factory;
@@ -15,23 +12,21 @@ public class EntityManagerFactoryProvider implements Factory<EntityManagerFactor
 
     private static volatile EntityManagerFactoryProvider instance;
 
-    public static EntityManagerFactoryProvider of(@Named(PERSISTENT_UNIT) String persistentUnit) {
+    private final EntityManagerFactory emf;
+
+    public static EntityManagerFactoryProvider of(String persistentUnit) {
         EntityManagerFactoryProvider result = instance;
         if (Objects.nonNull( result )) return result;
 
         synchronized (EntityManagerFactoryProvider.class) {
             if (Objects.isNull( instance )) {
-                   instance = new EntityManagerFactoryProvider( persistentUnit );
+                instance = new EntityManagerFactoryProvider( persistentUnit );
             }
             return instance;
         }
     }
 
-
-    private static final String PERSISTENT_UNIT = "oracle";
-    private final EntityManagerFactory emf;
-
-    private EntityManagerFactoryProvider(@Named(PERSISTENT_UNIT) String persistentUnit) {
+    private EntityManagerFactoryProvider(String persistentUnit) {
         emf = Persistence.createEntityManagerFactory( persistentUnit, getProperties() );
     }
 
@@ -45,7 +40,10 @@ public class EntityManagerFactoryProvider implements Factory<EntityManagerFactor
         instance.close();
     }
 
-
+    /**
+     * Protegendo informações críticas como usuário e senha do banco de dados
+     * @return
+     */
     static Map<String, Object> getProperties() {
 
         Map<String, String> env = System.getenv();

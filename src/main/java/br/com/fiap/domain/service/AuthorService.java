@@ -13,7 +13,6 @@ public class AuthorService implements Service<Author, Long> {
 
     private static volatile AuthorService instance;
 
-
     private AuthorRepository repo;
 
     private AuthorService(AuthorRepository repo) {

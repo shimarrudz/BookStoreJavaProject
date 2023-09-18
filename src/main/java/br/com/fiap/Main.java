@@ -17,34 +17,20 @@ import java.net.URI;
 
 public class Main {
 
-    private static final String BASE_URI = "http://localhost/";
+    public static final String BASE_URI = "http://localhost/";
+
+    public static final String PERSISTENCE_UNIT = "oracle";
 
     @PersistenceContext
     static EntityManager manager;
 
     public static HttpServer startServer() {
-//        EntityManagerFactoryProvider factory = new EntityManagerFactoryProvider( "oracle" );
-//        EntityManagerProvider em = new EntityManagerProvider( factory.provide() );
-//
-//
-//        manager = em.provide();
-//        AuthorRepository authorRepository = AuthorRepository.of( manager );
-//        BookRepository bookRepository = BookRepository.of( manager );
-//        PessoaRepository pessoaRepository = PessoaRepository.of( manager );
-//        PessoaService pessoaService = new PessoaService( pessoaRepository );
-//        AuthorService authorService = new AuthorService( authorRepository );
-//        BookService bookService = new BookService( bookRepository );
-//        AuthorResource authorResource = new AuthorResource();
-//        BookResource bookResource = new BookResource();
-
 
         final ResourceConfig rc = new ResourceConfig()
                 .register(
                         new AbstractBinder() {
                             @Override
                             protected void configure() {
-                                //  bindFactory( EntityManagerFactoryProvider.class ).in( Singleton.class );
-                                //  bindFactory( EntityManagerProvider.class ).in( RequestScoped.class );
                                 bindFactory( EntityManagerFactoryProvider.class )
                                         .to( EntityManagerFactory.class )
                                         .in( Singleton.class );
@@ -53,7 +39,8 @@ public class Main {
                                         .in( RequestScoped.class );
                             }
                         }
-                ).packages( "br.com.fiap.domain.resources" );
+                ).register( EntityManagerFactoryProvider.of( PERSISTENCE_UNIT).provide() )
+                .packages( "br.com.fiap.domain.resources" );
         return GrizzlyHttpServerFactory.createHttpServer( URI.create( BASE_URI ), rc );
     }
 
@@ -68,6 +55,4 @@ public class Main {
             throw new RuntimeException( e );
         }
     }
-
-
 }

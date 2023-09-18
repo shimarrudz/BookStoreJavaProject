@@ -7,7 +7,12 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 
-public record PessoaFisicaDTO(Long id, @NotNull String nome, @PastOrPresent LocalDate nascimento, @NotNull String cpf) {
+public record PessoaFisicaDTO(
+        Long id,
+        @NotNull String nome,
+        @PastOrPresent LocalDate nascimento,
+        @NotNull String cpf
+) {
     public static PessoaFisicaDTO of(PessoaFisica p) {
         return new PessoaFisicaDTO( p.getId(), p.getNome(), p.getNascimento(), p.getCpf() );
     }
