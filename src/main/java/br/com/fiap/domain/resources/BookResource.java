@@ -5,15 +5,16 @@ import br.com.fiap.domain.dto.BookDTO;
 import br.com.fiap.domain.entity.Book;
 import br.com.fiap.domain.service.BookService;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.*;
 
 import java.net.URI;
 import java.util.List;
 
 @Path("/book")
 public class BookResource implements Resource<BookDTO, Long> {
+
+    @Context
+    UriInfo uriInfo;
 
     private BookService service = BookService.of( Main.PERSISTENCE_UNIT );
 
@@ -49,10 +50,8 @@ public class BookResource implements Resource<BookDTO, Long> {
     public Response persist(BookDTO book) {
         Book persist = service.persist( BookDTO.of( book ) );
 
-        URI uri = UriBuilder
-                .fromMethod( BookResource.class, "persist" )
-                .build( persist.getName() )
-                .normalize();
+        UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+        URI uri = ub.path( String.valueOf( persist.getId() ) ).build();
 
         return Response
                 .created( uri )

@@ -5,15 +5,15 @@ import br.com.fiap.domain.dto.PessoaJuridicaDTO;
 import br.com.fiap.domain.entity.PessoaJuridica;
 import br.com.fiap.domain.service.PessoaJuridicaService;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.*;
 
 import java.net.URI;
 import java.util.List;
 
 @Path("/pj")
 public class PessoaJuridicaResource implements Resource<PessoaJuridicaDTO, Long> {
+    @Context
+    UriInfo uriInfo;
 
     private PessoaJuridicaService service = PessoaJuridicaService.of( Main.PERSISTENCE_UNIT );
 
@@ -49,10 +49,9 @@ public class PessoaJuridicaResource implements Resource<PessoaJuridicaDTO, Long>
     public Response persist(PessoaJuridicaDTO pessoa) {
         PessoaJuridica persist = service.persist( PessoaJuridicaDTO.of( pessoa ) );
 
-        URI uri = UriBuilder
-                .fromMethod( PessoaJuridicaResource.class, "persist" )
-                .build( persist.getNome() )
-                .normalize();
+        //https://docs.oracle.com/middleware/1213/wls/RESTF/develop-restful-service.htm#RESTF238
+        UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+        URI uri = ub.path( String.valueOf( persist.getId() ) ).build();
 
         return Response
                 .created( uri )

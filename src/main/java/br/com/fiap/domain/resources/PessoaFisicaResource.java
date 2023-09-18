@@ -5,15 +5,16 @@ import br.com.fiap.domain.dto.PessoaFisicaDTO;
 import br.com.fiap.domain.entity.PessoaFisica;
 import br.com.fiap.domain.service.PessoaFisicaService;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.*;
 
 import java.net.URI;
 import java.util.List;
 
 @Path("/pf")
 public class PessoaFisicaResource implements Resource<PessoaFisicaDTO, Long> {
+
+    @Context
+    UriInfo uriInfo;
 
     private PessoaFisicaService service = PessoaFisicaService.of( Main.PERSISTENCE_UNIT );
 
@@ -35,7 +36,7 @@ public class PessoaFisicaResource implements Resource<PessoaFisicaDTO, Long> {
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response findById(@PathParam("id") Long id) {
-        PessoaFisica  pessoa = service.findById( id );
+        PessoaFisica pessoa = service.findById( id );
 
         return Response
                 .status( Response.Status.OK )
@@ -49,10 +50,9 @@ public class PessoaFisicaResource implements Resource<PessoaFisicaDTO, Long> {
     public Response persist(PessoaFisicaDTO pessoa) {
         PessoaFisica persist = service.persist( PessoaFisicaDTO.of( pessoa ) );
 
-        URI uri = UriBuilder
-                .fromMethod( PessoaFisicaResource.class, "persist" )
-                .build( persist.getNome() )
-                .normalize();
+        //https://docs.oracle.com/middleware/1213/wls/RESTF/develop-restful-service.htm#RESTF238
+        UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+        URI uri = ub.path( String.valueOf( persist.getId() ) ).build();
 
         return Response
                 .created( uri )
