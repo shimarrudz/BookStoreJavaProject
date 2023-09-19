@@ -13,20 +13,16 @@ import java.util.Objects;
 @Path("/")
 public class HomeApiService {
 
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
-
-
     @POST
     @Path(value = "authorization")
     @Produces(MediaType.APPLICATION_JSON)
     public Response authorizationService(User user) {
         if (Objects.isNull( user ))
-            return Response.status( 405 ).entity( "User is required" ).build();
+            return Response.status( 401 ).entity( "User is required" ).build();
         if (user.username().isEmpty())
-            return Response.status( 403 ).entity( "username field cannot be empty!" ).build();
+            return Response.status( 401 ).entity( "username field cannot be empty!" ).build();
         if (user.password().isEmpty())
-            return Response.status( 403 ).entity( "password field cannot be empty!" ).build();
+            return Response.status( 401 ).entity( "password field cannot be empty!" ).build();
         String privateKey = JwTokenHelper.getInstance().generatePrivateKey( user.username(), user.password() );
         return Response.ok().entity( "You're authenticated successfully.\n" + user.username() + "\nPrivate key will be valid for 30 mins: \n" + privateKey ).build();
     }
