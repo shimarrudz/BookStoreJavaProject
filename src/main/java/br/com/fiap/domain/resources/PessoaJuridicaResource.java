@@ -4,12 +4,13 @@ import br.com.fiap.Main;
 import br.com.fiap.domain.dto.PessoaJuridicaDTO;
 import br.com.fiap.domain.entity.PessoaJuridica;
 import br.com.fiap.domain.service.PessoaJuridicaService;
+import br.com.fiap.infra.configuration.jwt.JsonTokenNeeded;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
 import java.net.URI;
 import java.util.List;
-
+@JsonTokenNeeded //Necessita de um "privateKey" em Authorization type APIKey
 @Path("/pj")
 public class PessoaJuridicaResource implements Resource<PessoaJuridicaDTO, Long> {
     @Context
