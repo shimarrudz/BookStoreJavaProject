@@ -4,12 +4,14 @@ import br.com.fiap.Main;
 import br.com.fiap.domain.dto.AuthorDTO;
 import br.com.fiap.domain.entity.Author;
 import br.com.fiap.domain.service.AuthorService;
+import br.com.fiap.infra.configuration.jwt.JsonTokenNeeded;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
 import java.net.URI;
 import java.util.List;
 
+@JsonTokenNeeded //Necessita de um "privateKey" em Authorization type APIKey
 @Path("/author")
 public class AuthorResource implements Resource<AuthorDTO, Long> {
 

@@ -4,12 +4,16 @@ import br.com.fiap.Main;
 import br.com.fiap.domain.dto.BookDTO;
 import br.com.fiap.domain.entity.Book;
 import br.com.fiap.domain.service.BookService;
+import br.com.fiap.infra.configuration.jwt.JsonTokenNeeded;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
 import java.net.URI;
 import java.util.List;
 
+
+
+@JsonTokenNeeded //Necessita de um "privateKey" em Authorization type APIKey
 @Path("/book")
 public class BookResource implements Resource<BookDTO, Long> {
 
