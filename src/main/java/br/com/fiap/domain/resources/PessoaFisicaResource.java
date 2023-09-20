@@ -10,8 +10,9 @@ import jakarta.ws.rs.core.*;
 
 import java.net.URI;
 import java.util.List;
-@JsonTokenNeeded //Necessita de um "privateKey" em Authorization type APIKey
+
 @Path("/pf")
+@JsonTokenNeeded //Necessita de um "privateKey" em Usuario type APIKey
 public class PessoaFisicaResource implements Resource<PessoaFisicaDTO, Long> {
 
     @Context
