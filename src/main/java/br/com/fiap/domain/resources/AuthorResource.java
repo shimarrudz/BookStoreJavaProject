@@ -11,8 +11,9 @@ import jakarta.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
 
-@JsonTokenNeeded //Necessita de um "privateKey" em Authorization type APIKey
+
 @Path("/author")
+@JsonTokenNeeded //Necessita de um "privateKey" em Usuario type APIKey
 public class AuthorResource implements Resource<AuthorDTO, Long> {
 
     @Context

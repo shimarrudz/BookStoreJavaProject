@@ -8,14 +8,14 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost/book",
+			"name": "Book",
 			"request": {
 				"auth": {
 					"type": "apikey",
 					"apikey": [
 						{
 							"key": "value",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMxMjMiLCJleHAiOjE2OTUxNTgyODd9.Q9ujz-nbzsMyWexlI0CslAdlB0pTItbBwhOUeHa4b-4",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsImV4cCI6MTY5NTE4OTU2Nn0.1ze8qTmOc7Z7tjKRjNd8kOcoTiosTE8JsOkcC2almj0",
 							"type": "string"
 						},
 						{
@@ -41,7 +41,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost/authorization",
+			"name": "Login",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -66,7 +66,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"benefrancis@gmail.com\",\r\n    \"password\":\"123123\"\r\n}",
+					"raw": "{\r\n    \"username\":\"benefrancis@gmail.com\",\r\n    \"password\":\"12\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -81,6 +81,105 @@
 					],
 					"path": [
 						"authorization"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Author",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsImV4cCI6MTY5NTE4OTU2Nn0.1ze8qTmOc7Z7tjKRjNd8kOcoTiosTE8JsOkcC2almj0",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "privateKey",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/author",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"author"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PF",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsImV4cCI6MTY5NTE4OTU2Nn0.1ze8qTmOc7Z7tjKRjNd8kOcoTiosTE8JsOkcC2almj0",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "privateKey",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/pf",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"pf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PJ",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsImV4cCI6MTY5NTE4OTU2Nn0.1ze8qTmOc7Z7tjKRjNd8kOcoTiosTE8JsOkcC2almj0",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "privateKey",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/pj",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"pj"
 					]
 				}
 			},
