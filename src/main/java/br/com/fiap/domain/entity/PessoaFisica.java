@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @DiscriminatorValue("PF")
 public class PessoaFisica extends Pessoa {
 
-    @Column(name = "NR_CPF", nullable = true)
+    @Column(name = "NR_CPF", nullable = false)
     private String cpf;
 
     public PessoaFisica() {

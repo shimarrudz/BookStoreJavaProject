@@ -8,10 +8,9 @@ import java.time.LocalDate;
 @Table(name = "TB_PJ", uniqueConstraints = {
         @UniqueConstraint(name = "UK_PJ_CNPJ", columnNames = "NR_CNPJ")
 })
-@DiscriminatorValue("PJ")
 public class PessoaJuridica extends Pessoa {
 
-    @Column(name = "NR_CNPJ", nullable = true)
+    @Column(name = "NR_CNPJ", nullable = false)
     private String cnpj;
 
     public PessoaJuridica() {
